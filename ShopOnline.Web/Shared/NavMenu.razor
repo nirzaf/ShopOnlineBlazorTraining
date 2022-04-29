@@ -1,0 +1,58 @@
+﻿@implements IDisposable
+@inject IShoppingCartService shoppingCartService
+
+<div class="top-row ps-3 navbar navbar-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href=""><span class="fas fa-shopping-cart" aria-hidden="true"></span>&nbsp;ShopOnline</a>
+        <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </div>
+</div>
+
+<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
+    <nav class="flex-column">
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                <span class="fas fa-home" aria-hidden="true"></span>&nbsp;Home
+            </NavLink>
+        </div>
+     <ProductCategoriesNavMenu/>
+
+
+        <div class="nav-item px-3 d-sm-none">
+            <NavLink class="nav-link" href="ShoppingCart">
+                <span class="fas fa-shopping-cart" aria-hidden="true"></span>&nbsp;Shopping Cart (<b>@shoppingCartItemsCount</b>)
+            </NavLink>
+        </div>
+
+    </nav>
+</div>
+
+@code {
+    private bool collapseNavMenu = true;
+
+    private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+
+    private int shoppingCartItemsCount = 0;
+
+    private void ToggleNavMenu()
+    {
+        collapseNavMenu = !collapseNavMenu;
+    }
+
+    protected override void OnInitialized()
+    {
+        shoppingCartService.OnShoppingCartChanged += ShoppingCartChanged;
+    }
+    private void ShoppingCartChanged(int totalQty)
+    {
+        shoppingCartItemsCount = totalQty;
+        StateHasChanged();
+    }
+    void IDisposable.Dispose()
+    {
+        shoppingCartService.OnShoppingCartChanged -= ShoppingCartChanged;
+    }
+
+}
