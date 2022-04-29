@@ -6,18 +6,18 @@ namespace ShopOnline.Web.Services
 {
     public class ProductService : IProductService
     {
-        private readonly HttpClient httpClient;
+        private readonly HttpClient _httpClient;
 
         public ProductService(HttpClient httpClient)
         {
-            this.httpClient = httpClient;
+            this._httpClient = httpClient;
         }
 
         public async Task<ProductDto> GetItem(int id)
         {
             try
             {
-                var response = await httpClient.GetAsync($"api/Product/{id}");
+                var response = await _httpClient.GetAsync($"api/Product/{id}");
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -45,7 +45,7 @@ namespace ShopOnline.Web.Services
         {
             try
             {
-                var response = await this.httpClient.GetAsync("api/Product");
+                var response = await this._httpClient.GetAsync("api/Product");
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -74,7 +74,7 @@ namespace ShopOnline.Web.Services
         {
             try
             {
-                var response = await httpClient.GetAsync($"api/Product/{categoryId}/GetItemsByCategory");
+                var response = await _httpClient.GetAsync($"api/Product/{categoryId}/GetItemsByCategory");
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -97,11 +97,11 @@ namespace ShopOnline.Web.Services
             }
         }
 
-        public async Task<IEnumerable<ProductCategoryDto>> GetProductCategories()
+        public async Task<IEnumerable<ProductCategoryDto>?> GetProductCategories()
         {
             try
             {
-                var response = await httpClient.GetAsync("api/Product/GetProductCategories");
+                var response = await _httpClient.GetAsync("api/Product/GetProductCategories");
 
                 if(response.IsSuccessStatusCode)
                 {

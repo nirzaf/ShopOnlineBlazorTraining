@@ -6,36 +6,36 @@ namespace ShopOnline.Web.Services
 {
     public class ManageProductsLocalStorageService : IManageProductsLocalStorageService
     {
-        private readonly ILocalStorageService localStorageService;
-        private readonly IProductService productService;
+        private readonly ILocalStorageService _localStorageService;
+        private readonly IProductService _productService;
 
-        private const string key = "ProductCollection";
+        private const string Key = "ProductCollection";
 
         public ManageProductsLocalStorageService(ILocalStorageService localStorageService,
                                                  IProductService productService)
         {
-            this.localStorageService = localStorageService;
-            this.productService = productService;
+            this._localStorageService = localStorageService;
+            this._productService = productService;
         }
 
         public async Task<IEnumerable<ProductDto>> GetCollection()
         {
-            return await this.localStorageService.GetItemAsync<IEnumerable<ProductDto>>(key)
+            return await this._localStorageService.GetItemAsync<IEnumerable<ProductDto>>(Key)
                     ?? await AddCollection();
         }
 
         public async Task RemoveCollection()
         {
-           await this.localStorageService.RemoveItemAsync(key);
+           await this._localStorageService.RemoveItemAsync(Key);
         }
 
         private async Task<IEnumerable<ProductDto>> AddCollection()
         {
-            var productCollection = await this.productService.GetItems();
+            var productCollection = await this._productService.GetItems();
 
             if (productCollection != null)
             {
-                await this.localStorageService.SetItemAsync(key, productCollection);
+                await this._localStorageService.SetItemAsync(Key, productCollection);
             }
 
             return productCollection;

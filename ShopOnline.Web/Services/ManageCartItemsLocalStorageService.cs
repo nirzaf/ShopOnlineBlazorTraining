@@ -6,41 +6,41 @@ namespace ShopOnline.Web.Services
 {
     public class ManageCartItemsLocalStorageService : IManageCartItemsLocalStorageService
     {
-        private readonly ILocalStorageService localStorageService;
-        private readonly IShoppingCartService shoppingCartService;
+        private readonly ILocalStorageService _localStorageService;
+        private readonly IShoppingCartService _shoppingCartService;
 
-        const string key = "CartItemCollection";
+        const string Key = "CartItemCollection";
 
         public ManageCartItemsLocalStorageService(ILocalStorageService localStorageService,
                                                   IShoppingCartService shoppingCartService)
         {
-            this.localStorageService = localStorageService;
-            this.shoppingCartService = shoppingCartService;
+            this._localStorageService = localStorageService;
+            this._shoppingCartService = shoppingCartService;
         }
 
         public async Task<List<CartItemDto>> GetCollection()
         {
-            return await this.localStorageService.GetItemAsync<List<CartItemDto>>(key)
+            return await this._localStorageService.GetItemAsync<List<CartItemDto>>(Key)
                     ?? await AddCollection();
         }
 
         public async Task RemoveCollection()
         {
-           await this.localStorageService.RemoveItemAsync(key);
+           await this._localStorageService.RemoveItemAsync(Key);
         }
 
         public async Task SaveCollection(List<CartItemDto> cartItemDtos)
         {
-            await this.localStorageService.SetItemAsync(key,cartItemDtos);
+            await this._localStorageService.SetItemAsync(Key,cartItemDtos);
         }
 
         private async Task<List<CartItemDto>> AddCollection()
         {
-            var shoppingCartCollection = await this.shoppingCartService.GetItems(HardCoded.UserId);
+            var shoppingCartCollection = await this._shoppingCartService.GetItems(HardCoded.UserId);
 
             if(shoppingCartCollection != null)
             {
-                await this.localStorageService.SetItemAsync(key, shoppingCartCollection);
+                await this._localStorageService.SetItemAsync(Key, shoppingCartCollection);
             }
             
             return shoppingCartCollection;

@@ -9,11 +9,11 @@ namespace ShopOnline.Api.Controllers
     [ApiController]
     public class ProductController : ControllerBase
     {
-        private readonly IProductRepository productRepository;
+        private readonly IProductRepository _productRepository;
 
         public ProductController(IProductRepository productRepository)
         {
-            this.productRepository = productRepository;
+            this._productRepository = productRepository;
         }
 
         [HttpGet]
@@ -21,7 +21,7 @@ namespace ShopOnline.Api.Controllers
         {
             try
             {
-                var products = await this.productRepository.GetItems();
+                var products = await this._productRepository.GetItems();
 
 
                 if (products == null)
@@ -48,7 +48,7 @@ namespace ShopOnline.Api.Controllers
         {
             try
             {
-                var product = await this.productRepository.GetItem(id);
+                var product = await this._productRepository.GetItem(id);
                
                 if (product == null)
                 {
@@ -77,7 +77,7 @@ namespace ShopOnline.Api.Controllers
         {
             try
             {
-                var productCategories = await productRepository.GetCategories();
+                var productCategories = await _productRepository.GetCategories();
                 
                 var productCategoryDtos = productCategories.ConvertToDto();
 
@@ -98,7 +98,7 @@ namespace ShopOnline.Api.Controllers
         {
             try
             {
-                var products = await productRepository.GetItemsByCategory(categoryId);
+                var products = await _productRepository.GetItemsByCategory(categoryId);
 
                 var productDtos = products.ConvertToDto();
 

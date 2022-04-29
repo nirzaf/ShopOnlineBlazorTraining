@@ -9,14 +9,14 @@ namespace ShopOnline.Api.Controllers
     [ApiController]
     public class ShoppingCartController : ControllerBase
     {
-        private readonly IShoppingCartRepository shoppingCartRepository;
-        private readonly IProductRepository productRepository;
+        private readonly IShoppingCartRepository _shoppingCartRepository;
+        private readonly IProductRepository _productRepository;
 
         public ShoppingCartController(IShoppingCartRepository shoppingCartRepository,
                                       IProductRepository productRepository)
         {
-            this.shoppingCartRepository = shoppingCartRepository;
-            this.productRepository = productRepository;
+            this._shoppingCartRepository = shoppingCartRepository;
+            this._productRepository = productRepository;
         }
 
         [HttpGet]
@@ -25,14 +25,14 @@ namespace ShopOnline.Api.Controllers
         {
             try
             {
-                var cartItems = await this.shoppingCartRepository.GetItems(userId);
+                var cartItems = await this._shoppingCartRepository.GetItems(userId);
 
                 if (cartItems == null)
                 {
                     return NoContent();
                 }
                 
-                var products = await this.productRepository.GetItems();
+                var products = await this._productRepository.GetItems();
 
                 if (products == null)
                 {
@@ -56,12 +56,12 @@ namespace ShopOnline.Api.Controllers
         {
             try
             {
-                var cartItem = await this.shoppingCartRepository.GetItem(id);
+                var cartItem = await this._shoppingCartRepository.GetItem(id);
                 if (cartItem == null)
                 {
                     return NotFound();
                 }
-                var product = await productRepository.GetItem(cartItem.ProductId);
+                var product = await _productRepository.GetItem(cartItem.ProductId);
 
                 if (product == null)
                 {
@@ -82,14 +82,14 @@ namespace ShopOnline.Api.Controllers
         {
             try
             {
-                var newCartItem = await this.shoppingCartRepository.AddItem(cartItemToAddDto);
+                var newCartItem = await this._shoppingCartRepository.AddItem(cartItemToAddDto);
 
                 if (newCartItem == null)
                 {
                     return NoContent();
                 }
 
-                var product = await productRepository.GetItem(newCartItem.ProductId);
+                var product = await _productRepository.GetItem(newCartItem.ProductId);
 
                 if (product == null)
                 {
@@ -113,14 +113,14 @@ namespace ShopOnline.Api.Controllers
         {
             try
             {
-                var cartItem = await this.shoppingCartRepository.DeleteItem(id);
+                var cartItem = await this._shoppingCartRepository.DeleteItem(id);
                 
                 if (cartItem == null)
                 { 
                     return NotFound();
                 }
 
-                var product = await this.productRepository.GetItem(cartItem.ProductId);
+                var product = await this._productRepository.GetItem(cartItem.ProductId);
 
                 if (product == null)
                     return NotFound();
@@ -140,13 +140,13 @@ namespace ShopOnline.Api.Controllers
         {
             try
             {
-                var cartItem = await this.shoppingCartRepository.UpdateQty(id, cartItemQtyUpdateDto);
+                var cartItem = await this._shoppingCartRepository.UpdateQty(id, cartItemQtyUpdateDto);
                 if (cartItem == null)
                 {
                     return NotFound();
                 }
 
-                var product = await productRepository.GetItem(cartItem.ProductId);
+                var product = await _productRepository.GetItem(cartItem.ProductId);
 
                 var cartItemDto = cartItem.ConvertToDto(product);
 

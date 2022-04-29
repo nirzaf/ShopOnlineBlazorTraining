@@ -12,7 +12,7 @@ namespace ShopOnline.Api.Extensions
                     {
                         Id = productCategory.Id,
                         Name = productCategory.Name,
-                        IconCSS = productCategory.IconCSS
+                        IconCss = productCategory.IconCss
                     }).ToList();
         }
         public static IEnumerable<ProductDto> ConvertToDto(this IEnumerable<Product> products)
@@ -23,7 +23,7 @@ namespace ShopOnline.Api.Extensions
                         Id = product.Id,
                         Name=product.Name,
                         Description=product.Description,
-                        ImageURL=product.ImageURL,
+                        ImageUrl=product.ImageUrl,
                         Price=product.Price,
                         Qty=product.Qty,
                         CategoryId= product.ProductCategory.Id,
@@ -39,7 +39,7 @@ namespace ShopOnline.Api.Extensions
                 Id=product.Id,
                 Name = product.Name,
                 Description = product.Description,
-                ImageURL = product.ImageURL,
+                ImageUrl = product.ImageUrl,
                 Price = product.Price,
                 Qty = product.Qty,
                 CategoryId = product.ProductCategory.Id,
@@ -61,7 +61,7 @@ namespace ShopOnline.Api.Extensions
                         ProductId = cartItem.ProductId,
                         ProductName = product.Name,
                         ProductDescription = product.Description,
-                        ProductImageURL = product.ImageURL,
+                        ProductImageUrl = product.ImageUrl,
                         Price = product.Price,
                         CartId = cartItem.CartId,
                         Qty = cartItem.Qty,
@@ -77,7 +77,7 @@ namespace ShopOnline.Api.Extensions
                      ProductId = cartItem.ProductId,
                      ProductName = product.Name,
                      ProductDescription = product.Description,
-                     ProductImageURL = product.ImageURL,
+                     ProductImageUrl = product.ImageUrl,
                      Price = product.Price,
                      CartId = cartItem.CartId,
                      Qty = cartItem.Qty,

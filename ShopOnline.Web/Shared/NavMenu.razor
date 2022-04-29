@@ -1,5 +1,5 @@
 ﻿@implements IDisposable
-@inject IShoppingCartService shoppingCartService
+@inject IShoppingCartService ShoppingCartService
 
 <div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
@@ -22,7 +22,7 @@
 
         <div class="nav-item px-3 d-sm-none">
             <NavLink class="nav-link" href="ShoppingCart">
-                <span class="fas fa-shopping-cart" aria-hidden="true"></span>&nbsp;Shopping Cart (<b>@shoppingCartItemsCount</b>)
+                <span class="fas fa-shopping-cart" aria-hidden="true"></span>&nbsp;Shopping Cart (<b>@_shoppingCartItemsCount</b>)
             </NavLink>
         </div>
 
@@ -30,29 +30,29 @@
 </div>
 
 @code {
-    private bool collapseNavMenu = true;
+    private bool _collapseNavMenu = true;
 
-    private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+    private string? NavMenuCssClass => _collapseNavMenu ? "collapse" : null;
 
-    private int shoppingCartItemsCount = 0;
+    private int _shoppingCartItemsCount = 0;
 
     private void ToggleNavMenu()
     {
-        collapseNavMenu = !collapseNavMenu;
+        _collapseNavMenu = !_collapseNavMenu;
     }
 
     protected override void OnInitialized()
     {
-        shoppingCartService.OnShoppingCartChanged += ShoppingCartChanged;
+        ShoppingCartService.OnShoppingCartChanged += ShoppingCartChanged;
     }
     private void ShoppingCartChanged(int totalQty)
     {
-        shoppingCartItemsCount = totalQty;
+        _shoppingCartItemsCount = totalQty;
         StateHasChanged();
     }
     void IDisposable.Dispose()
     {
-        shoppingCartService.OnShoppingCartChanged -= ShoppingCartChanged;
+        ShoppingCartService.OnShoppingCartChanged -= ShoppingCartChanged;
     }
 
 }
